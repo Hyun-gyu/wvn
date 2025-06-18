@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  wvn:
+    image: wvn:250612
+    container_name: hg_wvn
+    privileged: true
+    ipc: host
+    runtime: nvidia
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=${QT_X11_NO_MITSHM}
+      - ROS_IP=${ROS_IP}
+      - TZ=${TZ}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTH}:${XAUTH}
+      - ${DATA_PATH}:/root/data/datasets
+      - ${WS_PATH}:/root/catkin_ws
+      - ${RESULTS_PATH}:/root/data/results
+      - ${UTILS_PATH}:/root/utils
+      - /etc/localtime:/etc/localtime:ro
+      - /dev:/dev
+    ports:
+      - "54357:22"
+      - "53458:8888"
+    stdin_open: true
+    tty: true
+    working_dir: /root/catkin_ws
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]

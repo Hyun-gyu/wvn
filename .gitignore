@@ -1,0 +1,5 @@
+# === ROS & catkin build folders ===
+build/
+devel/
+logs/
+.catkin_tools/
